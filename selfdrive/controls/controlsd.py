@@ -90,7 +90,7 @@ class Controls:
     if self.mute_dm:
       IGNORE_PROCESSES.update({"dmonitoringd", "dmonitoringmodeld"})
       self.camera_packets.remove("driverCameraState")
-    
+
     ignore = self.sensor_packets + ['testJoystick']
     if self.mute_dm:
       ignore += ['driverMonitoringState']
@@ -120,7 +120,7 @@ class Controls:
     self.is_ldw_enabled = self.params.get_bool("IsLdwEnabled")
 
     # detect sound card presence and ensure successful init
-    sounds_available = HARDWARE.get_sound_card_online()
+    #sounds_available = HARDWARE.get_sound_card_online()
 
     car_recognized = self.CP.carName != 'mock'
 
@@ -178,8 +178,8 @@ class Controls:
 
     self.startup_event = get_startup_event(car_recognized, not self.CP.passive, len(self.CP.carFw) > 0)
 
-    if not sounds_available:
-      self.events.add(EventName.soundsUnavailable, static=True)
+    #if not sounds_available:
+      #self.events.add(EventName.soundsUnavailable, static=True)
     if not car_recognized:
       self.events.add(EventName.carUnrecognized, static=True)
       if len(self.CP.carFw) > 0:
@@ -467,7 +467,7 @@ class Controls:
     if self.sm.frame == 900 and self.CP.lateralTuning.which() == 'torque' and self.CI.use_nnff:
       self.events.add(EventName.torqueNNLoad)
       print("NNFF display....")
-      
+
   def data_sample(self):
     """Receive data from sockets and update carState"""
 
@@ -593,7 +593,7 @@ class Controls:
           if not self.events.contains(ET.SOFT_DISABLE):
             print("#######State.softDisabling => enabled", self.events)
             # no more soft disabling condition, so go back to ENABLED
-            self.state = State.enabled            
+            self.state = State.enabled
 
           elif self.soft_disable_timer > 0:
             #print("#######State.softDisabling => timeout => disable")
@@ -700,8 +700,8 @@ class Controls:
         lateral_allowed = CS.cruiseState.available
         lateral_allowed |= CS.cruiseState.enabled
         self.lateral_allowed = lateral_allowed
-      
-      
+
+
       lateral_enabled = self.lateral_allowed and driving_gear and self.lateral_allowed_carrot
 
     manualSteeringOverride = self.params.get_int("ManualSteeringOverride")
@@ -864,7 +864,7 @@ class Controls:
       if self.enabled and self.carrotCruiseActivate < 0:
         print("pcmCruise: carrotCruiseActivate: cancel")
         CC.cruiseControl.cancel = True
-      elif CC.cruiseControl.cancel: 
+      elif CC.cruiseControl.cancel:
         #print("Cancel state...enabled={}, activate={}".format(self.enabled, self.carrotCruiseActivate))
         if self.carrotCruiseActivate > 0:
           CC.cruiseControl.cancel = False
@@ -910,7 +910,7 @@ class Controls:
     CC.hudControl.softHold = self.v_cruise_helper.softHoldActive
     CC.hudControl.activeAPM = self.sm['longitudinalPlan'].activeAPM #self.v_cruise_helper.activeAPM
     CC.hudControl.activeAVM = self.v_cruise_helper.activeAVM if self.enable_avail else 0
-        
+
     hudControl.rightLaneVisible = CC.latActive
     hudControl.leftLaneVisible = CC.latActive
 
@@ -1001,7 +1001,7 @@ class Controls:
     controlsState.experimentalMode = self.experimental_mode
     controlsState.personality = self.personality
 
-    controlsState.debugText1 = self.v_cruise_helper.debugText 
+    controlsState.debugText1 = self.v_cruise_helper.debugText
     #if self.v_cruise_helper.nooHelperActivated:
     #  controlsState.debugText1 += (" " + self.v_cruise_helper.debugTextNoo)
     controlsState.debugText2 = self.v_cruise_helper.debugText2

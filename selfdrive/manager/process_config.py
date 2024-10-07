@@ -68,7 +68,7 @@ procs = [
   NativeProcess("logcatd", "system/logcatd", ["./logcatd"], (enable_logging and only_onroad)),
   NativeProcess("proclogd", "system/proclogd", ["./proclogd"], only_onroad),
   PythonProcess("logmessaged", "system.logmessaged", enable_logging),
-  PythonProcess("micd", "system.micd", iscar),
+  #PythonProcess("micd", "system.micd", iscar),
   PythonProcess("timed", "system.timed", always_run, enabled=not PC),
 
   PythonProcess("dmonitoringmodeld", "selfdrive.modeld.dmonitoringmodeld", enable_dm, enabled=(not PC or WEBCAM)),
@@ -79,7 +79,7 @@ procs = [
   NativeProcess("modeld", "selfdrive/modeld", ["./modeld"], only_onroad),
   NativeProcess("sensord", "system/sensord", ["./sensord"], only_onroad, enabled=not PC),
   NativeProcess("ui", "selfdrive/ui", ["./ui"], always_run, watchdog_max_dt=(5 if not PC else None)),
-  PythonProcess("soundd", "selfdrive.ui.soundd", only_onroad),
+  #PythonProcess("soundd", "selfdrive.ui.soundd", only_onroad),
   NativeProcess("locationd", "selfdrive/locationd", ["./locationd"], only_onroad),
   NativeProcess("boardd", "selfdrive/boardd", ["./boardd"], always_run, enabled=False),
   PythonProcess("calibrationd", "selfdrive.locationd.calibrationd", only_onroad),
@@ -109,14 +109,14 @@ procs = [
 
   PythonProcess("fleet_manager", "selfdrive.frogpilot.fleetmanager.fleet_manager", always_run),
   PythonProcess("mapd", "selfdrive.frogpilot.functions.mapd", osm),
-  
+
   PythonProcess("road_speed_limiter", "selfdrive.carrot.road_speed_limiter", always_run),
   PythonProcess("carrot_man", "selfdrive.carrot.carrot_man", always_run),
-  
+
   PythonProcess("navi_controller", "selfdrive.controls.neokii.navi_controller", always_run, enabled=not PC),
   #PythonProcess("navi_route", "selfdrive.controls.neokii.navi_route", only_onroad, enabled=Params().get_bool('UseExternalNaviRoutes')),
   PythonProcess("navi_route", "selfdrive.controls.neokii.navi_route", only_onroad, enabled=not PC),
-  
+
 ]
 
 managed_processes = {p.name: p for p in procs}
